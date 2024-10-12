@@ -24,12 +24,38 @@ const buildingsData = [
 const buildings = {};
 
 // Upgrades Data
+// Add descriptions to upgrades
 const upgradesData = [
-  { name: 'Reinforced Index Finger', cost: 100, effect: () => clickPower += 1, icon: 'https://via.placeholder.com/60', purchased: false },
-  { name: 'Carpal Tunnel Prevention Cream', cost: 500, effect: () => clickPower += 5, icon: 'https://via.placeholder.com/60', purchased: false },
-  { name: 'Ambidextrous', cost: 10000, effect: () => clickPower *= 2, icon: 'https://via.placeholder.com/60', purchased: false },
+  { name: 'Reinforced Index Finger', cost: 100, effect: () => clickPower += 1, icon: 'https://via.placeholder.com/60', purchased: false, description: 'Increases click power by 1.' },
+  { name: 'Carpal Tunnel Prevention Cream', cost: 500, effect: () => clickPower += 5, icon: 'https://via.placeholder.com/60', purchased: false, description: 'Increases click power by 5.' },
+  { name: 'Ambidextrous', cost: 10000, effect: () => clickPower *= 2, icon: 'https://via.placeholder.com/60', purchased: false, description: 'Doubles your click power.' },
   // Add more upgrades as needed
 ];
+
+// Initialize Upgrades
+function initUpgrades() {
+  const upgradesContainer = document.getElementById('upgrades');
+  upgradesContainer.innerHTML = '';
+  upgradesData.forEach((upgrade, index) => {
+    if (upgrade.purchased) return;
+    const upgradeElement = document.createElement('div');
+    upgradeElement.className = 'upgrade';
+    upgradeElement.id = `upgrade-${index}`;
+    upgradeElement.onclick = () => buyUpgrade(index);
+
+    const upgradeIcon = document.createElement('img');
+    upgradeIcon.src = upgrade.icon;
+
+    // Tooltip with name, cost, and description
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.textContent = `${upgrade.name}\nCost: ${formatNumber(upgrade.cost)}\n${upgrade.description}`;
+
+    upgradeElement.appendChild(upgradeIcon);
+    upgradeElement.appendChild(tooltip);
+    upgradesContainer.appendChild(upgradeElement);
+  });
+}
 
 // Achievements Data
 const achievementsData = [
